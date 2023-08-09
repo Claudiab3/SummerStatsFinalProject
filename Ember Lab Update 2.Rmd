@@ -72,7 +72,7 @@ colnames(labdata)
 #There were 4 vignettes, 2 negative and 2 positives
 #Each one had 8 related emotions rated on intensity
 
-googl#Target's instructions: "Imagine that you called your partner and started talking about your day. Below are short sections from your talk. Please rate the intensity of the emotions you might have experienced during the times you are talking."
+#Target's instructions: "Imagine that you called your partner and started talking about your day. Below are short sections from your talk. Please rate the intensity of the emotions you might have experienced during the times you are talking."
 
 
 #Here: Target's willingness to express emotions

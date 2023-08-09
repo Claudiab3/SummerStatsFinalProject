@@ -6,9 +6,14 @@ output:
   html_document:
     toc: true
     toc_float: true
+    
+```{r Note, include=FALSE}
+#Remember, 'html' refers to websites...this will be placed in the Github
 
+#'toc' refers to 'Table of Contents'
+#'toc_float' refers to placing the toc to the left-hand side of the page
+```
 
----
 
 ```{r setup, include=FALSE}
 #Install:install.packages("haven")
@@ -27,47 +32,85 @@ library(haven)
 labdata<-read_sav("SummerStatsFinalProject/data_ier 2.sav")
 ```
 
-## Predictions
-Avoidant Attachment Style
+##Predictions
 
-1. A participant higher in avoidant attachment style is less willing to express negative emotions.
+##Negative Emotions
 
-2. A participant higher in avoidant attachment style is less willing to express positive emotions.
+A participant higher in avoidant attachment style and lower in anxious attachment style is less willing to express negative emotions.
 
-Anxious Attachment Style
+A participant higher in anxious attachment style and lower in avoidant attachment style is less willing to express negative emotions.
 
-3. A participant higher in anxious attachment style is less willing to express negative emotions.
+##Positive Emotions
 
-4. A participant higher in anxious attachment style is more willing to express positive emotions.
+A participant higher in avoidant attachment style and lower in anxious attachment style is less willing to express positive emotions.
+
+A participant higher in anxious attachment style and lower in avoidant attachment style is more willing to express positive emotions.
 
 ## Descriptives
 
 Descriptive Statistics for Expressivity
 ```{r}
-
-
-
+#Target
+#Scale used: 
+summary(labdata$negative_exp)
+summary(labdata$positive_exp)
 ```
 
+Descriptive Statistics for Attachment Styles
 ```{r}
+#Target
+#Scale used:Revised Adult Attachment Scale 
+summary(labdata$Target_Attachment_Avoidance)
+summary(labdata$Target_Attachment_Anxiety)
+```
+
+
+
+```{r Condense and Create}
 
 #Process
-#Condense vin. #1 & 2 (postive, target's willingness to express emotion to partner)
-#condense vin. #3 & 4 (negative, target's willingness to express emotion to partner)
+#Condense vignette 1 & 2 (postive,target's willingness to express emotion to partner)
+#condense vignette 3 & 4 (negative,target's willingness to express emotion to partner)
 
-#variables #10, 20, 30, 40
+labdata$positive_exp<-rowMeans(labdata[,c(10,20)])
+labdata$negative_exp<-rowMeans(labdata[,c(30,40)])
 
+#"labdata$positive_exp", refers to adding a new titled column into my dataset
+#"<-rowMeans(labdata[,c(10,20)])", refers to combining both scores on the positive vignettes, as each Target participant was assessed twice
 
+#Same goes for the negative vignettes
 
-prediction1<-lm(negative_express~avoidant)
-prediction2<-lm(positive_express~anxious)
-prediction3<-lm(negative_express~avoidant)
-prediction4<-lm(positive_express~anxious)
-```
-
-```{r}
+#Here is how to check you have added these new variable or 'condensed' columns
 colnames(labdata)
+```
+
+Prediction 1
+```{r P1}
+
+p1<-lm(negative_exp~Target_Attachment_Avoidance+Target_Attachment_Anxiety, data=labdata)
+
+summary(p1)
+```
+
+Prediction 2
+```{r P2}
+p1<-lm(negative_exp~Target_Attachment_Avoidance+Target_Attachment_Anxiety, data=labdata)
+
+summary(p1)
 
 
 ```
 
+Prediction 3
+```{r P3}
+
+
+
+```
+
+Prediction 4
+```{r P4}
+
+
+
+```
