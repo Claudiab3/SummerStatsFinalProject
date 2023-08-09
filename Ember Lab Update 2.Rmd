@@ -6,6 +6,7 @@ output:
   html_document:
     toc: true
     toc_float: true
+---
     
 ```{r Note, include=FALSE}
 #Remember, 'html' refers to websites...this will be placed in the Github
@@ -41,7 +42,7 @@ Avoidant attachment style will be negatively associated with negative emotions a
 
 ### Positive Emotions
 
-Avoidant attachment style will be negatively associated with positive emotions and anxious attachment style will be positivly associated with positive emotions.
+Avoidant attachment style will be negatively associated with positive emotions and anxious attachment style will be positively associated with positive emotions.
 
 ## Descriptives
 
@@ -71,9 +72,7 @@ colnames(labdata)
 #There were 4 vignettes, 2 negative and 2 positives
 #Each one had 8 related emotions rated on intensity
 
-#Regulator's instructions: "Imagine that your partner called you and started talking about their day. Below are short sections of what they said. Please rate which emotions and the intensity of the emotions that your partner might have felt during the day whey were expereincing the events they are describing."
-
-#Target's instructions: "Imagine that you called your partner and started talking about your day. Below are short sections from your talk. Please rate the intensity of the emotions you might have experienced during the times you are talking."
+googl#Target's instructions: "Imagine that you called your partner and started talking about your day. Below are short sections from your talk. Please rate the intensity of the emotions you might have experienced during the times you are talking."
 
 
 #Here: Target's willingness to express emotions
@@ -109,33 +108,63 @@ p1<-lm(negative_exp~Target_Attachment_Avoidance+Target_Attachment_Anxiety, data=
 summary(p1)
 
 #Generate the Graph
+  #Install "reshape2" in the console window
+  #Load package
 
-#Remember to install "ggplot2"
+library(reshape2)
 
-#Load
+#Purpose of melting data: combines to incorporate into the ggplot
+labMelt<-melt(labdata,measure.vars=c("Target_Attachment_Avoidance","Target_Attachment_Anxiety"),
+              variable.name=c("Attachment_Style"),value.name="Attachment_Score")
+
+#Load (but remember to install ggplot2)
 library(ggplot2)
 
-plotp1<-ggplot(data=labdata,
-              aes(x= Target_Attachment_Avoidance+Target_Attachment_Anxiety,
-                  y=negative_exp))+
-  labs(x="Attachment Style",
-       y="Negative Expressivity")+
+plotp1<-ggplot(data=labMelt,
+              aes(x=Attachment_Score,
+                  y=negative_exp,
+                  color=Attachment_Style))+
+  labs(x="Attachment Score",
+       y="Negative Expressivity",
+       color="Attachment Style")+
   geom_jitter()+
   geom_smooth(method="lm")+
-  theme_gray(base_size=20)
+  theme_gray(base_size=10)
+  scale_color_discrete(labels=c("Avoidance","Anxiety"))
 
 #Output the graph
 
 plotp1
 
-                    
 ```
 
 Prediction 2
 ```{r P2}
-p2<-lm(negative_exp~Target_Attachment_Avoidance+Target_Attachment_Anxiety, data=labdata)
+p2<-lm(positive_exp~Target_Attachment_Avoidance+Target_Attachment_Anxiety, data=labdata)
 
 summary(p2)
+
+#Purpose of melting data: combines to incorporate into the ggplot
+labMelt<-melt(labdata,measure.vars=c("Target_Attachment_Avoidance","Target_Attachment_Anxiety"),
+              variable.name=c("Attachment_Style"),value.name="Attachment_Score")
+
+
+# Generate Graph
+plotp2<-ggplot(data=labMelt,
+              aes(x=Attachment_Score,
+                  y=positive_exp,
+                  color=Attachment_Style))+
+  labs(x="Attachment Score",
+       y="Positive Expressivity",
+       color="Attachment Style")+
+  geom_jitter()+
+  geom_smooth(method="lm")+
+  theme_gray(base_size=10)
+  scale_color_discrete(labels=c("Avoidance","Anxiety"))
+
+#Output the graph
+
+plotp2
 
 ```
 
